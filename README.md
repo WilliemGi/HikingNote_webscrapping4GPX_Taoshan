@@ -1,3 +1,40 @@
+# HikingNote 爬山筆記分析專案
+
+這是一個分析健行筆記網站資料的專案，包含爬取 GPX、HTML 頁面資訊，並整合天氣資料進行分析。
+
+## 資料處理流程圖
+
+```mermaid
+graph TD
+    subgraph A [流程A: 處理GPX檔案]
+        direction LR
+        A1["HikingNote_webscrapping4GPX_Taoshan.py<br>(爬蟲腳本)"] -- "1. 爬取GPX檔" --> A_manual{"手動放置<br>GPX檔案"}
+        A_manual --> A2["/Taoshan_route_GPX_file/<br>(資料夾)"]
+        A2 --> A3["AnalyzeHikingNoteGPX.code.py<br>(解析腳本)"]
+        A3 -- "2. 解析GPX" --> A4["(Taoshan_route_GPX_file_analysis_results.csv)"]
+    end
+
+    subgraph B [流程B: 處理HTML頁面資訊]
+        direction LR
+        B1["HikingNote_webscrapping4HTML_Taoshan.py<br>(爬蟲腳本)"] -- "1. 爬取頁面" --> B2["(data_from_HTML_Taoshan.json)"]
+        B2 --> B3["Parsing_DatafromHTML_Taoshan.py<br>(解析腳本)"]
+        B3 -- "2. 解析JSON轉CSV" --> B4["(webscrapping4HTML_Taoshan.csv)"]
+    end
+
+    subgraph C [流程C: 合併爬蟲資料]
+        A4 -- "以 end_date, total_time<br>為合併鍵" --> C1["merge_csv_files.py<br>(合併腳本)"]
+        B4 -- "INNER JOIN" --> C1
+        C1 --> C2["(merged_taoshan_data.csv)"]
+    end
+
+    subgraph D [流程D: 併入天氣資料]
+        D_input["(weather.csv)<br>(外部資料)"] -- "以 date, end_date<br>為合併鍵" --> D1["merge_weather.py<br>(合併腳本)"]
+        C2 -- "LEFT JOIN" --> D1
+        D1 --> D_final["(final_data_with_weather.csv)<br>🎉 最終產出"]
+    end
+```
+
+
 ---
 
 # HikingNote 爬蟲程式說明文件
