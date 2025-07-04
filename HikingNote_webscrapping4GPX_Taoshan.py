@@ -17,11 +17,11 @@ USERNAME = os.getenv("MY_USERNAME")
 PASSWORD = os.getenv("MY_PASSWORD")
 
 # 設定下載目錄，建立新資料夾「桃山GPX檔」
-current_dir = pathlib.Path(os.getcwd()).resolve()  # 獲取當前工作目錄
-download_dir = current_dir / "桃山GPX檔"  # 建立「桃山GPX檔」資料夾
-if not download_dir.exists():
-    download_dir.mkdir()  # 如果資料夾不存在，則建立
-DOWNLOAD_DIR = download_dir.as_posix()
+# current_dir = pathlib.Path(os.getcwd()).resolve()  # 獲取當前工作目錄
+# download_dir = current_dir / "桃山GPX檔"  # 建立「桃山GPX檔」資料夾
+# if not download_dir.exists():
+#     download_dir.mkdir()  # 如果資料夾不存在，則建立
+# DOWNLOAD_DIR = download_dir.as_posix()
 
 # 設定瀏覽器選項
 opts = webdriver.ChromeOptions()
